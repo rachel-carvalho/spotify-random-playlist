@@ -18,16 +18,21 @@ class User
   end
 
   def randomized_playlist
-    playlists.find do |playlist|
+    @randomized_playlist ||= playlists.find do |playlist|
       playlist.name == RANDOMIZED_PLAYLIST_NAME
     end
   end
 
   def create_randomized_playlist!
-    spotify_user.create_playlist!(RANDOMIZED_PLAYLIST_NAME, public: false)
+    spotify_user.create_playlist!(RANDOMIZED_PLAYLIST_NAME, public: false).tap do |playlist|
+      all_songs.shuffle.each_slice(100) do |slice|
+        playlist.add_tracks!(slice)
+      end
+    end
   end
 
   def destroy_randomized_playlist!
+    randomized_playlist.replace_tracks!([])
     spotify_user.unfollow(randomized_playlist)
   end
 

@@ -62,20 +62,38 @@ class UserTest < ActiveSupport::TestCase
     assert_nil @user.randomized_playlist
   end
 
-  test '#create_randomized_playlist! creates the playlist' do
+  test '#create_randomized_playlist! creates the playlist and adds songs to it' do
     playlist = mock('playlist')
+    songs = generate_songs
+    shuffled_songs = songs.to_a.shuffle
+
+    @user.stubs(:all_songs).returns songs
+    songs.stubs(:shuffle).returns shuffled_songs
+
     @spotify_user.expects(:create_playlist!).with('Randomized Liked Songs', public: false).returns playlist
+    playlist.expects(:add_tracks!).with(shuffled_songs[0...100])
+    playlist.expects(:add_tracks!).with(shuffled_songs[100...101])
+
     @user.create_randomized_playlist!
   end
 
   test '#destroy_randomized_playlist! unfollows it' do
     playlist = mock('playlist')
     @user.stubs(:randomized_playlist).returns playlist
+
+    playlist.expects(:replace_tracks!).with([])
     @spotify_user.expects(:unfollow).with(playlist).returns playlist
+
     @user.destroy_randomized_playlist!
   end
 
   private
+
+  def generate_songs
+    Array.new(101) do |n|
+      mock("song #{n}")
+    end
+  end
 
   def generate_playlists(count)
     Array.new(count) do |n|

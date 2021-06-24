@@ -2,7 +2,6 @@
 
 <% if user %>
   <% if user.randomized_playlist %>
-    <%= link_to 'View', :playlist %>
     <%= button_to 'Delete "Randomized Liked Songs" playlist', :playlist, method: :delete %>
   <% else %>
     <%= button_to 'Create "Randomized Liked Songs" playlist', :playlist %>
