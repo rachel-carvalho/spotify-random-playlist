@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   helper_method :user
 
   def user
-    session[:user]
+    return if !session || !session[:user]
+    RSpotify::User.new(session[:user])
   end
 end

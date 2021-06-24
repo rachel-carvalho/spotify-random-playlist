@@ -11,7 +11,11 @@
   </head>
 
   <body>
-    <%= link_to 'Sign in with Spotify', '/auth/spotify' %>
+    <% if user %>
+    <p><%= user.display_name %></p>
+    <% else %>
+    <%= button_to 'Sign in with Spotify', '/auth/spotify' %>
+    <% end %>
     <%= yield %>
   </body>
 </html>
