@@ -4,6 +4,6 @@ class ApplicationController < ActionController::Base
 
   def user
     return if !session || !session[:user]
-    RSpotify::User.new(session[:user])
+    @user ||= User.new(RSpotify::User.new(session[:user]))
   end
 end
