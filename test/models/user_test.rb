@@ -33,4 +33,18 @@ class UserTest < ActiveSupport::TestCase
     @spotify_user.stubs(:saved_tracks).with(limit: 50, offset: 150).returns []
     assert_equal page1 + page2 + page3, @user.all_songs
   end
+
+  test '#playlists lists all users playlists' do
+    page1 = [mock('playlist from page 1')] * 50
+    page2 = [mock('playlist from page 2')] * 50
+    page3 = [mock('playlist from page 3')] * 20
+    @spotify_user.stubs(:playlists).with(limit: 50, offset: 0).returns page1
+    @spotify_user.stubs(:playlists).with(limit: 50, offset: 50).returns page2
+    @spotify_user.stubs(:playlists).with(limit: 50, offset: 100).returns page3
+    assert_equal page1 + page2 + page3, @user.playlists
+  end
+
+  test "#randomized_playlist returns the user's playlist with name 'Randomized Liked Songs'" do
+
+  end
 end

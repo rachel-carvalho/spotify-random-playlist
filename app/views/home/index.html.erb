@@ -1,8 +1,11 @@
 <h1>Spotify Random Playlist</h1>
-
+<%= user.to_json%>
 <h2>Songs</h2>
+<%= render partial: 'song_list', locals: {songs: @songs} %>
+
+<h2>Playlists</h2>
 <ol>
-<% @songs.each do |song| %>
-  <li><%= "#{song.artists.map(&:name).join(',')} - #{song.album.name} - #{song.name} (#{ActiveSupport::Duration.build(song.duration_ms / 1000).inspect})" %></li>
+<% @playlists.each do |playlist| %>
+  <li><%= playlist.name %></li>
 <% end %>
 </ol>

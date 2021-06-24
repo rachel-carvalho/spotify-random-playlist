@@ -12,8 +12,8 @@
 
   <body>
     <% if user %>
-      <p><%= user.display_name %></p>
-      <%= button_to 'Sign out', :logout, method: :delete %>
+      <%= user.display_name %>
+      <%= button_to 'Sign out', :logout, method: :delete, form: {style: 'display: inline-block'} %>
     <% else %>
       <%= button_to 'Sign in with Spotify', '/auth/spotify' %>
     <% end %>

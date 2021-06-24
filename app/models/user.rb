@@ -8,10 +8,20 @@ class User
   end
 
   def all_songs
+    all_pages(:saved_tracks)
+  end
+
+  def playlists
+    all_pages(:playlists)
+  end
+
+  private
+
+  def all_pages(method_name)
     tracks = []
     limit = 50
     loop do
-      page = spotify_user.saved_tracks(limit: limit, offset: tracks.count)
+      page = spotify_user.public_send(method_name, limit: limit, offset: tracks.count)
       tracks += page
       return tracks if page.count < limit
     end

@@ -1,0 +1,5 @@
+<ol>
+<% songs.each do |song| %>
+  <li><%= "#{song.artists.map(&:name).join(',')} - #{song.album.name} - #{song.name} (#{ActiveSupport::Duration.build(song.duration_ms / 1000).inspect})" %></li>
+<% end %>
+</ol>
