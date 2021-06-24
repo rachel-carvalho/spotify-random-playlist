@@ -62,6 +62,19 @@ class UserTest < ActiveSupport::TestCase
     assert_nil @user.randomized_playlist
   end
 
+  test '#create_randomized_playlist! creates the playlist' do
+    playlist = mock('playlist')
+    @spotify_user.expects(:create_playlist!).with('Randomized Liked Songs', public: false).returns playlist
+    @user.create_randomized_playlist!
+  end
+
+  test '#destroy_randomized_playlist! unfollows it' do
+    playlist = mock('playlist')
+    @user.stubs(:randomized_playlist).returns playlist
+    @spotify_user.expects(:unfollow).with(playlist).returns playlist
+    @user.destroy_randomized_playlist!
+  end
+
   private
 
   def generate_playlists(count)

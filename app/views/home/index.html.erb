@@ -1,11 +1,19 @@
 <h1>Spotify Random Playlist</h1>
-<%= user.to_json%>
-<h2>Songs</h2>
-<%= render partial: 'song_list', locals: {songs: @songs} %>
 
-<h2>Playlists</h2>
-<ol>
-<% @playlists.each do |playlist| %>
-  <li><%= playlist.name %></li>
+<% if user %>
+  <% if user.randomized_playlist %>
+    <%= link_to 'View', :playlist %>
+    <%= button_to 'Delete "Randomized Liked Songs" playlist', :playlist, method: :delete %>
+  <% else %>
+    <%= button_to 'Create "Randomized Liked Songs" playlist', :playlist %>
+  <% end %>
+
+  <h2>Playlists</h2>
+  <ol>
+  <% @playlists.each do |playlist| %>
+    <li><%= playlist.name %></li>
+  <% end %>
+  </ol>
+<% else %>
+  <p>Please sign in to do things.</p>
 <% end %>
-</ol>

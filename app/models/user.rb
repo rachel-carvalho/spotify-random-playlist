@@ -23,6 +23,14 @@ class User
     end
   end
 
+  def create_randomized_playlist!
+    spotify_user.create_playlist!(RANDOMIZED_PLAYLIST_NAME, public: false)
+  end
+
+  def destroy_randomized_playlist!
+    spotify_user.unfollow(randomized_playlist)
+  end
+
   private
 
   def all_pages(method_name)

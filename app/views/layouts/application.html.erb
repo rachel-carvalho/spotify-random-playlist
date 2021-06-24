@@ -17,6 +17,7 @@
     <% else %>
       <%= button_to 'Sign in with Spotify', '/auth/spotify' %>
     <% end %>
+    <p id="notice"><%= notice %></p>
     <%= yield %>
   </body>
 </html>
