@@ -1,4 +1,6 @@
 class User
+  RANDOMIZED_PLAYLIST_NAME = 'Randomized Liked Songs'
+
   attr_reader :spotify_user
 
   delegate :display_name, to: :spotify_user
@@ -8,11 +10,17 @@ class User
   end
 
   def all_songs
-    all_pages(:saved_tracks)
+    @songs ||= all_pages(:saved_tracks)
   end
 
   def playlists
-    all_pages(:playlists)
+    @playlists ||= all_pages(:playlists)
+  end
+
+  def randomized_playlist
+    playlists.find do |playlist|
+      playlist.name == RANDOMIZED_PLAYLIST_NAME
+    end
   end
 
   private

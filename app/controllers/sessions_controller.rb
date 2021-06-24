@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def create
-    session[:user] = RSpotify::User.new(request.env['omniauth.auth'])
+    session[:user] = request.env['omniauth.auth']
     redirect_to :root
   end
 

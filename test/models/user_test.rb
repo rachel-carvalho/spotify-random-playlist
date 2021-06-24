@@ -45,6 +45,30 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#randomized_playlist returns the user's playlist with name 'Randomized Liked Songs'" do
+    playlists = generate_playlists(83)
+    randomized = mock('the one', name: 'Randomized Liked Songs')
+    playlists.insert(Random.rand(82), randomized)
+    @user.stubs(:playlists).returns playlists
+    assert_equal randomized, @user.randomized_playlist
+  end
 
+  test "#randomized_playlist returns nil when user does not have playlist" do
+    @user.stubs(:playlists).returns generate_playlists(10)
+    assert_nil @user.randomized_playlist
+  end
+
+  test "#randomized_playlist returns nil when user does not have any playlist" do
+    @user.stubs(:playlists).returns []
+    assert_nil @user.randomized_playlist
+  end
+
+  private
+
+  def generate_playlists(count)
+    Array.new(count) do |n|
+      mock("playlist #{n}").tap do |m|
+        m.stubs(:name).returns "playlist #{n}"
+      end
+    end
   end
 end
