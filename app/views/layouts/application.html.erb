@@ -12,9 +12,10 @@
 
   <body>
     <% if user %>
-    <p><%= user.display_name %></p>
+      <p><%= user.display_name %></p>
+      <%= button_to 'Sign out', :logout, method: :delete %>
     <% else %>
-    <%= button_to 'Sign in with Spotify', '/auth/spotify' %>
+      <%= button_to 'Sign in with Spotify', '/auth/spotify' %>
     <% end %>
     <%= yield %>
   </body>
